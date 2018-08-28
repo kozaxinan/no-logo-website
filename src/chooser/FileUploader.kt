@@ -15,7 +15,13 @@ interface FileUploaderProps : RProps
 interface FileUploaderState : RState {
     var file: File?
     var fileUrl: String
-    var result: String
+    var result: Result
+}
+
+enum class Result {
+    recommended,
+    not_recommended,
+    nogo
 }
 
 // Import the axios library (run "npm install axios --save" to install)
@@ -25,7 +31,7 @@ external fun <T> axios(config: AxiosConfigSettings): Promise<AxiosResponse<T>>
 class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, FileUploaderState>(props) {
 
     override fun FileUploaderState.init(props: FileUploaderProps) {
-        result = "Waiting"
+        result = Result.recommended
     }
 
     override fun RBuilder.render() {
@@ -57,7 +63,16 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
         p { }
 
         if (state.file != null) {
-            img { attrs { src = state.fileUrl } }
+            img {
+                attrs {
+                    src = when (state.result) {
+                        recommended -> "cover_recommended.png"
+                        not_recommended -> "not_recommended.png"
+                        nogo -> "nogo.png"
+                    }
+                }
+            }
+            img { attrs { src = state.fileUrl ?: "" } }
         } else {
             div {
                 +"Please select an Image for Preview"
