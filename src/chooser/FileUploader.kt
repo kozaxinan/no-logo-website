@@ -67,10 +67,10 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
             img {
                 attrs {
                     src = when (state.result) {
-                        Result.recommended -> "cover_recommended.png"
-                        Result.not_recommended -> "not_recommended.png"
-                        Result.nogo -> "nogo.png"
-                        Result.error -> "camera with flash.png"
+                        Result.recommended -> "src/chooser/cover_recommended.png"
+                        Result.not_recommended -> "src/chooser/not_recommended.png"
+                        Result.nogo -> "src/chooser/nogo.png"
+                        Result.error -> "src/chooser/error.png"
                     }
                 }
             }
@@ -92,9 +92,6 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
                     "Content-Type" to "image/png"
             )
         }
-
-
-
 
         axios<String>(config).then {
             console.log(it.data)
