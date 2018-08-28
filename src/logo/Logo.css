@@ -1,6 +1,7 @@
 .Logo {
   position: relative;
   display: inline-block;
+  float: right;
 }
 
 .Logo-react {

@@ -3,10 +3,11 @@ body {
 }
 
 .App-header {
-  background-color: #000;
+  background-image: url(header.png);
   height: 160px;
   padding: 20px;
   color: white;
+  background-repeat: no-repeat;
 }
 
 .App-intro {
