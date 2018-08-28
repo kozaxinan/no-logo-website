@@ -7,11 +7,11 @@ import react.*
 import react.dom.*
 
 interface FileChooserProps : RProps {
-    fun onChangeFunction(): (Event) -> Unit
+    val onChangeFunction: (Event) -> Unit
 }
 
 fun RBuilder.fileChooser(props: FileChooserProps) = input(type = InputType.file) {
     attrs {
-        onChangeFunction = props.onChangeFunction()
+        onChangeFunction = props.onChangeFunction
     }
 }

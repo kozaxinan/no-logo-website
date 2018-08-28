@@ -2,6 +2,7 @@ package chooser
 
 import axios.Axios
 import axios.AxiosRequestConfig
+import chooser.Result.*
 import kotlinext.js.*
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
@@ -13,69 +14,73 @@ import kotlin.js.*
 interface FileUploaderProps : RProps
 
 interface FileUploaderState : RState {
-    var file: File?
     var fileUrl: String
     var result: Result
 }
 
 enum class Result {
-    recommended,
-    not_recommended,
-    nogo,
-    error
+    RECOMMENDED,
+    NOT_RECOMMENDED,
+    NOGO,
+    ERROR
 }
 
 class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, FileUploaderState>(props) {
 
     override fun FileUploaderState.init(props: FileUploaderProps) {
-        result = Result.recommended
+        fileUrl = ""
+        result = RECOMMENDED
     }
 
     override fun RBuilder.render() {
 
-        fileChooser(object : FileChooserProps {
-            override fun onChangeFunction() = fun(event: Event) {
-                val target = event.target
-
-                val newFile = if (target is HTMLInputElement) {
-                    target.files?.get(0)
-                } else null
-
-                val reader = FileReader()
-                reader.onloadend = {
-                    setState {
-                        file = newFile
-                        fileUrl = reader.result as String
-                    }
-                }
-
-                newFile?.let {
-                    reader.readAsDataURL(it)
-                    upload(it)
-                }
-            }
-        })
+        fileChooser(chooserProps)
 
         p { }
 
-        if (state.file != null) {
+        if (state.fileUrl.isNotEmpty()) {
             img {
                 attrs {
-                    src = when (state.result) {
-                        Result.recommended -> "src/chooser/cover_recommended.png"
-                        Result.not_recommended -> "src/chooser/not_recommended.png"
-                        Result.nogo -> "src/chooser/nogo.png"
-                        Result.error -> "src/chooser/error.png"
+                    src = getResultImage()
+                }
+            }
+            img {
+                attrs {
+                    src = state.fileUrl
+                }
+            }
+        } else {
+            div { +"Please select an Image for Preview" }
+        }
+    }
+
+    private fun getResultImage(): String = when (state.result) {
+        RECOMMENDED -> "src/chooser/cover_recommended.png"
+        NOT_RECOMMENDED -> "src/chooser/not_recommended.png"
+        NOGO -> "src/chooser/nogo.png"
+        ERROR -> "src/chooser/error.png"
+    }
+
+    private val chooserProps: FileChooserProps =
+            object : FileChooserProps {
+                override val onChangeFunction = fun(event: Event) {
+                    val target = event.target as HTMLInputElement
+
+                    val selectedFile = target.files?.get(0)
+
+                    selectedFile?.let {
+                        val reader = FileReader()
+                        reader.onloadend = {
+                            setState {
+                                fileUrl = reader.result as String
+                            }
+                        }
+
+                        reader.readAsDataURL(it)
+                        upload(it)
                     }
                 }
             }
-            img { attrs { src = state.fileUrl } }
-        } else {
-            div {
-                +"Please select an Image for Preview"
-            }
-        }
-    }
 
     private fun upload(file: File) {
         val config: AxiosRequestConfig = jsObject {
@@ -87,20 +92,17 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
             )
         }
 
-        Axios.post<String>(
-                "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com/live/post-image?fileName=" + file.name,
-                file,
-                config
-        ).then {
+        val url = "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com/live/post-image?fileName=" + file.name
+        Axios.post<String>(url, file, config).then {
             console.log(it.data)
             setState {
-                result = Result.recommended
+                result = RECOMMENDED
             }
         }.catch {
             console.log(it.message)
             console.log(it)
             setState {
-                result = Result.error
+                result = Result.ERROR
             }
         }
     }
