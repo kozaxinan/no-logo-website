@@ -3,8 +3,6 @@ package chooser
 import axios.AxiosConfigSettings
 import axios.AxiosResponse
 import kotlinext.js.*
-import kotlinx.html.*
-import kotlinx.html.js.*
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.files.*
@@ -48,23 +46,18 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
                         fileUrl = reader.result as String
                     }
                 }
+
                 newFile?.let {
                     reader.readAsDataURL(it)
+                    upload(it)
                 }
             }
         })
 
-        button {
-            +"Upload"
-            attrs {
-                onClickFunction = uploadHandler()
-            }
-        }
-
         p { }
 
         if (state.file != null) {
-            img { attrs { src = state.fileUrl ?: "" } }
+            img { attrs { src = state.fileUrl } }
         } else {
             div {
                 +"Please select an Image for Preview"
@@ -72,20 +65,31 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
         }
     }
 
-    private fun uploadHandler(): (Event) -> Unit = { event: Event ->
+    private fun upload(file: File) {
         val config: AxiosConfigSettings = jsObject {
-            url = "http://ziptasticapi.com/"
+            url = "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com/live/post-image?fileName=" + file.name
+            data = file
+            method = "Post"
+            headers = mapOf(
+                    "Accept" to "Application",
+                    "Content-Type" to "image/png"
+            )
         }
 
-        axios<Any>(config).then {
+
+
+
+        axios<String>(config).then {
+            console.log(it.data)
             setState {
-                result = it.data.toString()
+                result = it.data
             }
         }.catch {
+            console.log(it.message)
+            console.log(it)
             setState {
                 result = "Error!!!"
             }
-            console.log(it)
         }
     }
 }
