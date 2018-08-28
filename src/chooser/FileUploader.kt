@@ -1,7 +1,7 @@
 package chooser
 
-import axios.AxiosConfigSettings
-import axios.AxiosResponse
+import axios.Axios
+import axios.AxiosRequestConfig
 import kotlinext.js.*
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
@@ -25,10 +25,6 @@ enum class Result {
     error
 }
 
-// Import the axios library (run "npm install axios --save" to install)
-@JsModule("axios")
-external fun <T> axios(config: AxiosConfigSettings): Promise<AxiosResponse<T>>
-
 class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, FileUploaderState>(props) {
 
     override fun FileUploaderState.init(props: FileUploaderProps) {
@@ -39,7 +35,6 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
 
         fileChooser(object : FileChooserProps {
             override fun onChangeFunction() = fun(event: Event) {
-                console.log("ajnsfas")
                 val target = event.target
 
                 val newFile = if (target is HTMLInputElement) {
@@ -74,7 +69,7 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
                     }
                 }
             }
-            img { attrs { src = state.fileUrl ?: "" } }
+            img { attrs { src = state.fileUrl } }
         } else {
             div {
                 +"Please select an Image for Preview"
@@ -83,17 +78,20 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
     }
 
     private fun upload(file: File) {
-        val config: AxiosConfigSettings = jsObject {
-            url = "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com/live/post-image?fileName=" + file.name
-            data = file
-            method = "Post"
-            headers = mapOf(
-                    "Accept" to "Application",
-                    "Content-Type" to "image/png"
+        val config: AxiosRequestConfig = jsObject {
+            method = "post"
+            headers = json(
+                    "Accept" to "application",
+                    "Content-Type" to "image/png",
+                    "Access-Control-Allow-Origin" to "*"
             )
         }
 
-        axios<String>(config).then {
+        Axios.post<String>(
+                "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com/live/post-image?fileName=" + file.name,
+                file,
+                config
+        ).then {
             console.log(it.data)
             setState {
                 result = Result.recommended
