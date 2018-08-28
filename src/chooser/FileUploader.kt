@@ -15,7 +15,8 @@ import kotlin.js.*
 interface FileUploaderProps : RProps
 
 interface FileUploaderState : RState {
-    var filePath: File?
+    var file: File?
+    var fileUrl: String
     var result: String
 }
 
@@ -30,25 +31,43 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
     }
 
     override fun RBuilder.render() {
-        p {
-            fileChooser(object : FileChooserProps {
-                override fun onChangeFunction() = fun(event: Event) {
+
+        fileChooser(object : FileChooserProps {
+            override fun onChangeFunction() = fun(event: Event) {
+                console.log("ajnsfas")
+                val target = event.target
+
+                val newFile = if (target is HTMLInputElement) {
+                    target.files?.get(0)
+                } else null
+
+                val reader = FileReader()
+                reader.onloadend = {
                     setState {
-                        val target = event.target
-                        if (target is HTMLInputElement) {
-                            filePath = target.files?.get(0)
-                        }
+                        file = newFile
+                        fileUrl = reader.result as String
                     }
                 }
-            })
+                newFile?.let {
+                    reader.readAsDataURL(it)
+                }
+            }
+        })
+
+        button {
+            +"Upload"
+            attrs {
+                onClickFunction = uploadHandler()
+            }
         }
 
-        p {
-            button {
-                +"Upload"
-                attrs {
-                    onClickFunction = uploadHandler()
-                }
+        p { }
+
+        if (state.file != null) {
+            img { attrs { src = state.fileUrl ?: "" } }
+        } else {
+            div {
+                +"Please select an Image for Preview"
             }
         }
     }

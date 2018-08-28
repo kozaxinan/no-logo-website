@@ -11,13 +11,11 @@ class App : RComponent<RProps, RState>() {
             logo()
 
         }
-        p {
-
-            h2 {
-                +"No Logos No Toilets"
-            }
-            fileUploader()
+        h2 {
+            +"No Logos No Toilets"
         }
+
+        fileUploader()
     }
 }
 
