@@ -21,7 +21,8 @@ interface FileUploaderState : RState {
 enum class Result {
     recommended,
     not_recommended,
-    nogo
+    nogo,
+    error
 }
 
 // Import the axios library (run "npm install axios --save" to install)
@@ -66,9 +67,10 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
             img {
                 attrs {
                     src = when (state.result) {
-                        recommended -> "cover_recommended.png"
-                        not_recommended -> "not_recommended.png"
-                        nogo -> "nogo.png"
+                        Result.recommended -> "cover_recommended.png"
+                        Result.not_recommended -> "not_recommended.png"
+                        Result.nogo -> "nogo.png"
+                        Result.error -> "camera with flash.png"
                     }
                 }
             }
@@ -97,13 +99,13 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
         axios<String>(config).then {
             console.log(it.data)
             setState {
-                result = it.data
+                result = Result.recommended
             }
         }.catch {
             console.log(it.message)
             console.log(it)
             setState {
-                result = "Error!!!"
+                result = Result.error
             }
         }
     }
