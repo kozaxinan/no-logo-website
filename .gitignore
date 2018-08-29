@@ -23,6 +23,8 @@ yarn-error.log*
 
 *.iml
 
+/.idea/*
+
 .DS_STORE
 node_modules
 scripts/flow/*/.flowconfig
@@ -42,6 +44,7 @@ test/the-files-to-test.generated.js
 chrome-user-data
 *.sublime-project
 *.sublime-workspace
+.idea
 *.iml
 .vscode
 *.swp
