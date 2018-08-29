@@ -11,6 +11,15 @@ import react.*
 import react.dom.*
 import kotlin.js.*
 
+@JsModule("src/chooser/error.png")
+external val errorEmogi: dynamic
+@JsModule("src/chooser/cover_recommended.png")
+external val coverEmogi: dynamic
+@JsModule("src/chooser/nogo.png")
+external val nogoEmogi: dynamic
+@JsModule("src/chooser/not_recommended.png")
+external val notRecommendedEmogi: dynamic
+
 interface FileUploaderProps : RProps
 
 interface FileUploaderState : RState {
@@ -47,7 +56,7 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
 
             p {}
 
-            img {
+            img(classes = "uploaded_image") {
                 attrs {
                     src = state.fileUrl
                 }
@@ -58,10 +67,10 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
     }
 
     private fun getResultImage(): String = when (state.result) {
-        RECOMMENDED -> "src/chooser/cover_recommended.png"
-        NOT_RECOMMENDED -> "src/chooser/not_recommended.png"
-        NOGO -> "src/chooser/nogo.png"
-        ERROR -> "src/chooser/error.png"
+        RECOMMENDED -> coverEmogi
+        NOT_RECOMMENDED -> notRecommendedEmogi
+        NOGO -> nogoEmogi
+        ERROR -> errorEmogi
     }
 
     private val chooserProps: FileChooserProps =
