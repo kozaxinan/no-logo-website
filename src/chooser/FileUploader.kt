@@ -34,7 +34,7 @@ enum class Result {
 
 class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props) {
 
-    override fun FileUploaderState.init(props: RProps) {
+    override fun FileUploaderState.init() {
         fileUrl = ""
         result = RECOMMENDED
     }
@@ -94,8 +94,6 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
 
     private fun upload(file: File) {
         val config: AxiosRequestConfig = jsObject {
-            method = "post"
-            baseURL = "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com"
             headers = json(
                     "Content-Type" to "image/png",
                     "Access-Control-Allow-Origin" to "*"
@@ -103,18 +101,19 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
         }
 
         val url = "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com/live/post-image?fileName=" + file.name
-        Axios.post<String>(url, file, config).then {
-            console.log(it.data)
-            setState {
-                result = RECOMMENDED
-            }
-        }.catch {
-            console.log(it.message)
-            console.log(it)
-            setState {
-                result = Result.ERROR
-            }
-        }
+        Axios.post<String>(url, file, config)
+                .then {
+                    console.log(it.data)
+                    setState {
+                        result = RECOMMENDED
+                    }
+                }.catch {
+                    console.log(it.message)
+                    console.log(it)
+                    setState {
+                        result = Result.ERROR
+                    }
+                }
     }
 }
 
