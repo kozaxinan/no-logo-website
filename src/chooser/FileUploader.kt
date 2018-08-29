@@ -20,8 +20,6 @@ external val nogoEmogi: dynamic
 @JsModule("src/chooser/not_recommended.png")
 external val notRecommendedEmogi: dynamic
 
-interface FileUploaderProps : RProps
-
 interface FileUploaderState : RState {
     var fileUrl: String
     var result: Result
@@ -34,9 +32,9 @@ enum class Result {
     ERROR
 }
 
-class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, FileUploaderState>(props) {
+class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props) {
 
-    override fun FileUploaderState.init(props: FileUploaderProps) {
+    override fun FileUploaderState.init(props: RProps) {
         fileUrl = ""
         result = RECOMMENDED
     }

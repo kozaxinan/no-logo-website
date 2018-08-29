@@ -9,13 +9,12 @@ class App : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
         div("App-header") {
             logo()
+        }
 
-        }
-        h2 {
-            +"No Logos No Toilets"
-        }
+        p {}
 
         fileUploader()
+
     }
 }
 
