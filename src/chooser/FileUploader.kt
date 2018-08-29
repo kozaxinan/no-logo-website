@@ -23,6 +23,7 @@ external val notRecommendedEmogi: dynamic
 interface FileUploaderState : RState {
     var fileUrl: String
     var result: Result
+    var resultMessage: String
 }
 
 enum class Result {
@@ -37,6 +38,7 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
     override fun FileUploaderState.init(props: RProps) {
         fileUrl = ""
         result = RECOMMENDED
+        resultMessage = "good cover!"
     }
 
     override fun RBuilder.render() {
@@ -46,11 +48,13 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
         p {}
 
         if (state.fileUrl.isNotEmpty()) {
-            img {
+            img(classes = "emoji") {
                 attrs {
                     src = getResultImage()
                 }
             }
+
+            +"${state.resultMessage}"
 
             p {}
 
@@ -106,6 +110,7 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
                     console.log(it.data)
                     setState {
                         result = RECOMMENDED
+                        resultMessage = "good cover!"
                     }
                 }.catch {
                     console.log(it.message)
