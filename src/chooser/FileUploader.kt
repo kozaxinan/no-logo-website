@@ -36,7 +36,7 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
 
         fileChooser(chooserProps)
 
-        p { }
+        p {}
 
         if (state.fileUrl.isNotEmpty()) {
             img {
@@ -44,6 +44,9 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
                     src = getResultImage()
                 }
             }
+
+            p {}
+
             img {
                 attrs {
                     src = state.fileUrl
@@ -85,8 +88,8 @@ class FileUploader(props: FileUploaderProps) : RComponent<FileUploaderProps, Fil
     private fun upload(file: File) {
         val config: AxiosRequestConfig = jsObject {
             method = "post"
+            baseURL = "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com"
             headers = json(
-                    "Accept" to "application",
                     "Content-Type" to "image/png",
                     "Access-Control-Allow-Origin" to "*"
             )
