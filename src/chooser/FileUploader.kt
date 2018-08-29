@@ -34,7 +34,7 @@ enum class Result {
 
 class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props) {
 
-    override fun FileUploaderState.init() {
+    override fun FileUploaderState.init(props: RProps) {
         fileUrl = ""
         result = RECOMMENDED
     }
