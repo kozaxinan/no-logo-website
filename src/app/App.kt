@@ -11,9 +11,9 @@ class App : RComponent<RProps, RState>() {
             logo()
         }
 
-        p {}
-
-        fileUploader()
+        div("uploader_bg") {
+            fileUploader()
+        }
 
     }
 }

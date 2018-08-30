@@ -5,3 +5,36 @@
 .emoji {
     height: 50px;
 }
+
+input[type="file"] {
+    background-color: #cccccc;
+    height: 30px;
+    padding: 10px;
+    font-family: Arial, serif;
+    font-size: larger;
+}
+
+.uploader_bg {
+    background-color: #e5e5e5;
+    height: 150px;
+    #align-content: space-around;
+}
+
+.chooser_label {
+    background-color: #e5e5e5;
+}
+
+.select-image-btn input[type=file] {
+    font-size: 50px;
+    position: center;
+    font-family: Arial;
+    #left: 20px;
+    #top: 20px;
+}
+
+.select-image-btn {
+    background-image: url(cam.png);
+    #position: relative;
+    #overflow: hidden;
+    #display: inline-block;
+}
