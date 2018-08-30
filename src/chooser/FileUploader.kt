@@ -58,6 +58,8 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
                     }
                 }
 
+                p {}
+
                 +state.result.message
 
                 p {}
@@ -72,7 +74,6 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
         } else {
 
             div(classes = "result") {
-
                 div(classes = "select_label") { +"Please select an Image for Preview" }
             }
         }

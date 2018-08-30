@@ -1,17 +1,27 @@
 .uploaded_image {
     height: 250px;
+    margin: 20px auto;
 }
 
 .emoji {
     height: 50px;
+    margin-top: 20px;
 }
 
 input[type="file"] {
     height: 30px;
     padding: 10px;
-    font-family: Arial, serif;
-    font-size: larger;
-    align-content: center;
+}
+
+input.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 .uploader_bg {
@@ -23,7 +33,7 @@ input[type="file"] {
 .select_label {
     font-family: Arial;
     font-size: 20px;
-    top: 20px;
+    padding-top: 50px;
 }
 
 .chooser_label {
@@ -39,7 +49,7 @@ input[type="file"] {
 .result {
     position: relative;
     background-color: #b2b2b2;
-    height: 350px;
+    height: 750px;
 }
 
 .select-image-label input[type=file] {
