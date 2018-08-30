@@ -54,7 +54,7 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
                 }
             }
 
-            +"${state.resultMessage}"
+            +state.resultMessage
 
             p {}
 
