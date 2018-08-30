@@ -25,11 +25,12 @@ interface FileUploaderState : RState {
     var result: Result
 }
 
-enum class Result(val message: String){
+enum class Result(var message: String) {
     RECOMMENDED("good cover!"),
     NOT_RECOMMENDED("bad cover!!!!"),
     NOGO("that is bad"),
-    ERROR("!!!error!!!")
+    ERROR("!!!error!!!"),
+    LOADING("***LOADING***")
 }
 
 class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props) {
@@ -71,11 +72,17 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
         NOT_RECOMMENDED -> notRecommendedEmogi
         NOGO -> nogoEmogi
         ERROR -> errorEmogi
+        LOADING -> ""
     }
 
     private val chooserProps: FileChooserProps =
             object : FileChooserProps {
                 override val onChangeFunction = fun(event: Event) {
+
+                    setState {
+                        result = LOADING
+                    }
+
                     val target = event.target as HTMLInputElement
 
                     val selectedFile = target.files?.get(0)
@@ -103,12 +110,17 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
         }
 
         val url = "https://6lcmpdwp72.execute-api.eu-west-1.amazonaws.com/live/post-image?fileName=" + file.name
-        Axios.post<String>(url, file, config)
+        Axios.post<ResponseDto>(url, file, config)
                 .then {
                     console.log(it.data)
-                    // TODO check data and decide what is the result
+
                     setState {
-                        result = RECOMMENDED
+                        result = when (it.data.Level.toInt()) {
+                            0 -> RECOMMENDED
+                            1 -> NOT_RECOMMENDED.apply { it.data.Message }
+                            2 -> NOGO.apply { it.data.Message }
+                            else -> ERROR
+                        }
                     }
                 }.catch {
                     console.log(it.message)
@@ -121,3 +133,5 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
 }
 
 fun RBuilder.fileUploader() = child(FileUploader::class) {}
+
+data class ResponseDto(val Level: String, val Message: String)
