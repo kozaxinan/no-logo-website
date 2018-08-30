@@ -23,14 +23,13 @@ external val notRecommendedEmogi: dynamic
 interface FileUploaderState : RState {
     var fileUrl: String
     var result: Result
-    var resultMessage: String
 }
 
-enum class Result {
-    RECOMMENDED,
-    NOT_RECOMMENDED,
-    NOGO,
-    ERROR
+enum class Result(val message: String){
+    RECOMMENDED("good cover!"),
+    NOT_RECOMMENDED("bad cover!!!!"),
+    NOGO("that is bad"),
+    ERROR("!!!error!!!")
 }
 
 class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props) {
@@ -38,7 +37,6 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
     override fun FileUploaderState.init(props: RProps) {
         fileUrl = ""
         result = RECOMMENDED
-        resultMessage = "good cover!"
     }
 
     override fun RBuilder.render() {
@@ -54,7 +52,7 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
                 }
             }
 
-            +state.resultMessage
+            +state.result.message
 
             p {}
 
@@ -108,9 +106,9 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
         Axios.post<String>(url, file, config)
                 .then {
                     console.log(it.data)
+                    // TODO check data and decide what is the result
                     setState {
                         result = RECOMMENDED
-                        resultMessage = "good cover!"
                     }
                 }.catch {
                     console.log(it.message)
