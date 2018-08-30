@@ -51,23 +51,30 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
         p {}
 
         if (state.fileUrl.isNotEmpty()) {
-            img(classes = "emoji") {
-                attrs {
-                    src = getResultImage()
+            div(classes = "result") {
+                img(classes = "emoji") {
+                    attrs {
+                        src = getResultImage()
+                    }
+                }
+
+                +state.result.message
+
+                p {}
+
+                img(classes = "uploaded_image") {
+                    attrs {
+                        src = state.fileUrl
+                    }
                 }
             }
 
-            +state.result.message
-
-            p {}
-
-            img(classes = "uploaded_image") {
-                attrs {
-                    src = state.fileUrl
-                }
-            }
         } else {
-            div { +"Please select an Image for Preview" }
+
+            div(classes = "result") {
+
+                div(classes = "select_label") { +"Please select an Image for Preview" }
+            }
         }
     }
 

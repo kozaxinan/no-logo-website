@@ -1,5 +1,5 @@
 .uploaded_image {
-    height: 300px;
+    height: 250px;
 }
 
 .emoji {
@@ -7,17 +7,23 @@
 }
 
 input[type="file"] {
-    background-color: #cccccc;
     height: 30px;
     padding: 10px;
     font-family: Arial, serif;
     font-size: larger;
+    align-content: center;
 }
 
 .uploader_bg {
     background-color: #e5e5e5;
     height: 150px;
-    #align-content: space-around;
+    align-content: center;
+}
+
+.select_label {
+    font-family: Arial;
+    font-size: 20px;
+    top: 20px;
 }
 
 .chooser_label {
@@ -28,13 +34,17 @@ input[type="file"] {
     font-size: 50px;
     position: center;
     font-family: Arial;
-    #left: 20px;
-    #top: 20px;
 }
 
-.select-image-btn {
-    background-image: url(cam.png);
-    #position: relative;
-    #overflow: hidden;
-    #display: inline-block;
+.result {
+    position: relative;
+    background-color: #b2b2b2;
+    height: 350px;
+}
+
+.select-image-label input[type=file] {
+    font-size: 50px;
+    float: right;
+    font-family: Arial;
+    text-align: right;
 }
