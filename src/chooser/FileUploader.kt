@@ -25,12 +25,16 @@ interface FileUploaderState : RState {
     var result: Result
 }
 
-enum class Result(var message: String) {
-    RECOMMENDED("good cover!"),
-    NOT_RECOMMENDED("bad cover!!!!"),
-    NOGO("that is bad"),
-    ERROR("!!!error!!!"),
-    LOADING("***LOADING***")
+enum class Result(val id: Int, var message: String) {
+    RECOMMENDED(0, "good cover!"),
+    NOT_RECOMMENDED(1, "bad cover!!!!"),
+    NOGO(2, "that is bad"),
+    ERROR(3, "!!!error!!!"),
+    LOADING(4, "***LOADING***");
+
+    companion object {
+        fun getById(id: Int): Result = Result.values().find { it.id == id } ?: Result.ERROR
+    }
 }
 
 class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props) {
@@ -115,12 +119,7 @@ class FileUploader(props: RProps) : RComponent<RProps, FileUploaderState>(props)
                     console.log(it.data)
 
                     setState {
-                        result = when (it.data.Level.toInt()) {
-                            0 -> RECOMMENDED
-                            1 -> NOT_RECOMMENDED.apply { it.data.Message }
-                            2 -> NOGO.apply { it.data.Message }
-                            else -> ERROR
-                        }
+                        result = Result.getById(it.data.Level.toInt()).apply { message = it.data.Message }
                     }
                 }.catch {
                     console.log(it.message)
