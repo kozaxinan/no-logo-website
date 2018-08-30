@@ -1,0 +1,123 @@
+body {
+  text-align: center;
+  background-color: #cccccc;
+}
+
+.App-header {
+  background-image: url(/no-logo-website/static/media/banner.5bb1c964.jpg);
+  height: 160px;
+  padding: 20px;
+  color: white;
+  background-repeat: no-repeat;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App-ticker {
+  font-size: medium;
+}
+.uploaded_image {
+    height: 250px;
+    margin: 20px auto;
+}
+
+.emoji {
+    height: 50px;
+    margin-top: 20px;
+}
+
+input[type="file"] {
+    height: 30px;
+    padding: 10px;
+}
+
+input.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.uploader_bg {
+    background-color: #e5e5e5;
+    height: 150px;
+    -ms-flex-line-pack: center;
+        align-content: center;
+}
+
+.select_label {
+    font-family: Arial;
+    font-size: 20px;
+    padding-top: 50px;
+}
+
+.chooser_label {
+    background-color: #e5e5e5;
+}
+
+.select-image-btn input[type=file] {
+    font-size: 50px;
+    position: center;
+    font-family: Arial;
+}
+
+.result {
+    position: relative;
+    background-color: #b2b2b2;
+    height: 750px;
+}
+
+.select-image-label input[type=file] {
+    font-size: 50px;
+    float: right;
+    font-family: Arial;
+    text-align: right;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.Logo {
+  position: relative;
+  display: inline-block;
+  float: right;
+}
+
+.Logo-react {
+  -webkit-animation: Logo-spin infinite 10s linear;
+          animation: Logo-spin infinite 10s linear;
+  height: 100%;
+}
+
+.Logo-kotlin {
+  opacity: 0;
+  -webkit-animation: Logo-spin infinite 10s 5s linear;
+          animation: Logo-spin infinite 10s 5s linear;
+  height: 72%;
+  position: absolute;
+  top: 14%;
+  right: 24%;
+}
+
+@-webkit-keyframes Logo-spin {
+  from { -webkit-transform: rotateY(-90deg); transform: rotateY(-90deg); opacity: 1 }
+  50% { -webkit-transform: rotateY(90deg); transform: rotateY(90deg); opacity: 1 }
+  51% { -webkit-transform: rotateY(90deg); transform: rotateY(90deg); opacity: 0 }
+  to { -webkit-transform: rotateY(270deg); transform: rotateY(270deg); opacity: 0 }
+}
+
+@keyframes Logo-spin {
+  from { -webkit-transform: rotateY(-90deg); transform: rotateY(-90deg); opacity: 1 }
+  50% { -webkit-transform: rotateY(90deg); transform: rotateY(90deg); opacity: 1 }
+  51% { -webkit-transform: rotateY(90deg); transform: rotateY(90deg); opacity: 0 }
+  to { -webkit-transform: rotateY(270deg); transform: rotateY(270deg); opacity: 0 }
+}
+
+/*# sourceMappingURL=main.0ab25fec.css.map*/
