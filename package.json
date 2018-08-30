@@ -2,12 +2,14 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://kozaxinan.github.io/no-logo-website",
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
   },
   "devDependencies": {
+    "gh-pages": "^1.2.0",
     "react-scripts-kotlin": "2.1.12"
   },
   "scripts": {
@@ -16,6 +18,8 @@
     "eject": "react-scripts-kotlin eject",
     "gen-idea-libs": "react-scripts-kotlin gen-idea-libs",
     "get-types": "react-scripts-kotlin get-types --dest=src/types",
-    "postinstall": "npm run gen-idea-libs"
+    "postinstall": "npm run gen-idea-libs",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
