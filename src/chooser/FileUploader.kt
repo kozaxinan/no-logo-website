@@ -29,7 +29,7 @@ enum class Result(val id: Int, var message: String) {
     RECOMMENDED(0, "good cover!"),
     NOT_RECOMMENDED(1, "bad cover!!!!"),
     NOGO(2, "that is bad"),
-    ERROR(3, "!!!error!!!"),
+    ERROR(3, "¯\\_(ツ)_/¯ AI is not sure about it ¯\\_(ツ)_/¯ "),
     LOADING(4, "***LOADING***");
 
     companion object {
